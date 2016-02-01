@@ -1,0 +1,45 @@
+/*
+  Blank Simple Project.c
+  http://learn.parallax.com/propeller-c-tutorials 
+*/
+#include "simpletools.h"                      // Include simple tools
+#include "abdrive.h"
+#include <stdio.h>
+
+int main()                                    // Main function
+{
+  int numberOfElements = 5, i, i2, i3, swap;
+  float distance = 0, distanceTemp = 0;
+  int ticks = 0;
+  int numberArray[5] = {5, 4, 3, 2, 1}; 
+  for (i = 0 ; i < ( numberOfElements - 1 ); i++){
+    for (i2 = 0 ; i2 < numberOfElements - i - 1; i2++){
+      for ( i3 = 0 ; i3 < numberOfElements ; i3++ )
+        print("%d\t", numberArray[i3]);
+      print("\n");
+      if (numberArray[i2] > numberArray[i2+1]){ /* For decreasing order use < */
+        distance = ((((i2+1) * 36 * 10 )/(3.25)) - distanceTemp); // Maybe change distanceTemp to distance after intiliazing distance = 0 at the start
+        distanceTemp = (((i2+1) * 36 * 10 )/(3.25));
+        ticks = distance;
+        drive_goto(ticks, ticks);
+        high(26);
+        high(27);
+        pause(100);
+        low(26);
+        low(27);
+        print("THE DISTANCE IS %f AND %f, %d",distance, distanceTemp, ticks);
+        swap       = numberArray[i2];
+        numberArray[i2]   = numberArray[i2+1];
+        numberArray[i2+1] = swap;
+      }
+    }
+  }
+  
+  drive_goto(166,166);
+  drive_goto(100,-100);
+ 
+  print("Sorted list in ascending order:\n");
+ 
+  for ( i3 = 0 ; i3 < numberOfElements ; i3++ )
+     print("%d\n", numberArray[i3]);
+}
